@@ -1,0 +1,37 @@
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "-q",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=.",
+    "--cov-config=coverage.toml",  # Use dedicated coverage config
+    "--cov-fail-under=25",   # Current baseline - will ratchet to 30%, 35%, 40%
+    "--cov-report=term-missing",
+    "--cov-report=html:coverage_html",
+    "--cov-report=xml:coverage.xml",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: long-running tests (>5s, deselect with '-m \"not slow\"')",
+    "integration: tests requiring external dependencies or docker",
+    "unit: fast unit tests with mocks",
+    "docker: tests that require Docker daemon",
+    "api: tests that require API access or keys",
+    "gpu: tests that require GPU acceleration",
+    "property: hypothesis-based property tests",
+    "benchmark: performance benchmark tests",
+    "flaky: non-deterministic tests; monitored for stability"
+]
+filterwarnings = [
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"

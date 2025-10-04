@@ -1,5 +1,9 @@
 # Whisper Transcription Project 🎵→📝
 
+![CI Pipeline](https://github.com/reesey275/whisper-project/workflows/Enterprise%20CI%20Pipeline/badge.svg)
+![Quality Gate](https://img.shields.io/badge/quality-black%20%7C%20isort%20%7C%20flake8%20%7C%20mypy%20%7C%20bandit%20%7C%20safety-blue)
+![Tests](https://img.shields.io/badge/tests-73%20total-green)
+![Coverage](https://img.shields.io/badge/coverage-25%25%20→%2040%25-orange)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/docker-supported-blue.svg)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,7 +12,7 @@ A comprehensive, production-ready Whisper transcription system with multiple pro
 
 **✨ Key Features:**
 - 🎯 **Multiple Processing Methods**: Local, Docker, and API transcription
-- 📁 **Organized Outputs**: Clean, timestamped, production-ready files  
+- 📁 **Organized Outputs**: Clean, timestamped, production-ready files
 - 🐳 **Multi-Stack Deployment**: Scale to handle multiple projects
 - 🤖 **Smart Model Selection**: From fast `tiny` to accurate `large` models
 - 🌍 **English-Optimized**: Defaults to English for best performance
@@ -73,7 +77,7 @@ whisper-project/
 ## 📋 Requirements & Setup
 
 ### System Requirements
-- Python 3.8+ 
+- Python 3.8+
 - For GPU acceleration: NVIDIA GPU + CUDA drivers
 - For Docker: Docker Desktop or Docker Engine
 
@@ -209,7 +213,7 @@ python api/alternative_apis.py podcast.mp3 --service speechmatics --language en
 Whisper supports 99+ languages including:
 - English (`en`) - Best supported
 - Spanish (`es`)
-- French (`fr`) 
+- French (`fr`)
 - German (`de`)
 - Italian (`it`)
 - Portuguese (`pt`)
@@ -239,7 +243,7 @@ All scripts generate multiple output formats:
 - Enable GPU acceleration if available: `pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
 - Use SSD storage for model files and audio processing
 
-### Docker Performance  
+### Docker Performance
 - Use `faster-whisper` containers (2-4x faster than standard)
 - Enable GPU support with `--gpu` flag
 - Mount input/output directories for batch processing
@@ -255,7 +259,7 @@ All scripts generate multiple output formats:
 ```bash
 # API Keys
 export OPENAI_API_KEY="your-openai-key"
-export ASSEMBLYAI_API_KEY="your-assemblyai-key"  
+export ASSEMBLYAI_API_KEY="your-assemblyai-key"
 export REV_AI_API_KEY="your-rev-key"
 export SPEECHMATICS_API_KEY="your-speechmatics-key"
 
@@ -273,7 +277,7 @@ Place audio files in the `input/` directory and run:
 # Local batch
 find input/ -name "*.mp3" -exec python local/transcribe_local.py {} \;
 
-# Docker batch  
+# Docker batch
 ./docker/transcribe_docker.sh batch ./input ./output medium true
 
 # API batch
@@ -344,8 +348,12 @@ Real-world testing on 16-core, 31GB RAM system with 33.3-second audio:
 | `medium` | 11.1s | **3.0x** | High (492 chars) | <1GB | High-quality |
 | `turbo` | 8.7s | **3.8x** | Good (358 chars) | <1GB | Optimized |
 
-**Recommendation**: Use `small` model for best quality-to-speed balance.  
+**Recommendation**: Use `small` model for best quality-to-speed balance.
 *See [Model Selection Guide](docs/MODEL_SELECTION_GUIDE.md) for complete benchmark analysis.*
+
+## 📋 API Documentation
+
+**[📖 Function Behavior Contracts](FUNCTION_CONTRACTS.md)** - Complete interface specifications with exact return shapes and error conditions discovered through comprehensive testing.
 
 ## 🤝 Contributing
 
@@ -355,8 +363,10 @@ Feel free to submit issues, feature requests, or pull requests!
 ```bash
 git clone <this-repo>
 cd whisper-project
-pip install -r requirements.txt
-pip install -r requirements-dev.txt  # If available
+make setup           # Professional setup with venv and dependencies
+make test-fast       # Quick validation
+make test-contracts  # Validate behavior contracts
+make dev-check       # Complete quality check (lint + test + security)
 ```
 
 ## 📜 License
