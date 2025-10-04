@@ -1,0 +1,365 @@
+# =============================================================================
+# POTATO POLICY COMPLIANT .GITIGNORE
+# DevOnboarder Standard - Comprehensive Security & Cleanliness
+# =============================================================================
+
+# =============================================================================
+# SECURITY - NEVER COMMIT THESE (Potato Policy Level 1)
+# =============================================================================
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+!.env.template
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+secrets.json
+secrets.yaml
+secrets.yml
+config/secrets/
+.secrets/
+
+# API Keys & Tokens
+*api_key*
+*API_KEY*
+*secret_key*
+*SECRET_KEY*
+*access_token*
+*ACCESS_TOKEN*
+*private_key*
+*PRIVATE_KEY*
+*.token
+auth.json
+credentials.json
+.credentials/
+
+# Cloud & Database Credentials  
+*aws*
+*AWS*
+*gcp*
+*GCP*
+*azure*
+*AZURE*
+database.json
+db_config.json
+connection_string*
+CONNECTION_STRING*
+
+# =============================================================================
+# PYTHON ENVIRONMENT (Potato Policy Level 2)
+# =============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+.env/
+env/
+ENV/
+env.bak/
+venv.bak/
+whisper-env/
+.python-version
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Package Managers
+pip-log.txt
+pip-delete-this-directory.txt
+Pipfile.lock
+poetry.lock
+.pdm.toml
+__pypackages__/
+
+# =============================================================================
+# DEVELOPMENT TOOLS (Potato Policy Level 3)
+# =============================================================================
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+*.code-workspace
+
+# Testing & Coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+.pytest_cache/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Documentation builds
+docs/_build/
+.mkdocs/
+site/
+
+# =============================================================================
+# OPERATING SYSTEM (Potato Policy Level 4)
+# =============================================================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# PROJECT SPECIFIC - WHISPER TRANSCRIPTION
+# =============================================================================
+
+# Whisper Models & Cache
+~/.cache/whisper/
+.cache/
+models/
+whisper_models/
+*.bin
+*.pt
+*.onnx
+
+# Audio Input Files (configurable - uncomment if needed)
+# input/
+# *.mp3
+# *.mp4
+# *.wav
+# *.m4a
+# *.flac
+# *.ogg
+# *.aac
+# *.wma
+# *.webm
+
+# Transcription Output Files
+output/
+transcripts/
+results/
+*.srt
+*.vtt
+*_transcription.txt
+*_transcript.txt
+
+# Temporary Processing Files
+temp/
+tmp/
+temp_*/
+*.tmp
+*.temp
+processing/
+work/
+
+# Benchmark & Test Results
+benchmark_results/
+test_results/
+performance_logs/
+*.benchmark
+*.log
+
+# =============================================================================
+# DOCKER & CONTAINERS
+# =============================================================================
+
+# Docker
+.dockerignore
+docker-compose.override.local.yml
+docker-compose.local.yml
+.docker/
+
+# Container volumes & data
+volumes/
+data/
+postgres_data/
+redis_data/
+
+# =============================================================================
+# CI/CD & DEPLOYMENT
+# =============================================================================
+
+# GitHub Actions (keep workflows, ignore secrets)
+.github/secrets/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+
+# Kubernetes
+*.kubeconfig
+kubeconfig
+.kube/config
+
+# =============================================================================
+# LOGS & MONITORING
+# =============================================================================
+
+# Application Logs
+*.log
+logs/
+log/
+*.log.*
+*.out
+*.err
+
+# Debug dumps
+*.dmp
+*.dump
+core.*
+
+# =============================================================================
+# BACKUP & ARCHIVE
+# =============================================================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*~
+.#*
+#*#
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.rar
+*.7z
+
+# =============================================================================
+# NODE.JS (if using any JS tooling)
+# =============================================================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+.pnp.*
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
+
+# Large binary files
+*.bin
+*.dat
+*.db
+*.sqlite
+*.sqlite3
+
+# Media files (large)
+*.mov
+*.avi
+*.mkv
+*.wmv
+
+# Compiled documentation
+*.pdf
+*.doc
+*.docx
+
+# Local configuration overrides
+local_config.py
+local_settings.py
+settings_local.py
+
+# =============================================================================
+# ALLOW LIST - EXPLICITLY TRACK THESE
+# =============================================================================
+
+# Keep example files
+!.env.example
+!.env.template
+!docker-compose.example.yml
+
+# Keep documentation
+!docs/**
+!README.md
+!CHANGELOG.md
+!LICENSE
+!CONTRIBUTING.md
+
+# Keep small sample files
+!input/sample.mp3
+!input/README.md
+
+# Keep configuration templates
+!config/*.template
+!config/*.example
+
+# =============================================================================
+# END POTATO POLICY COMPLIANT .GITIGNORE
+# =============================================================================

@@ -1,0 +1,94 @@
+# Docker Compose file for Whisper transcription stack
+
+services:
+  # Core Whisper Transcription Service
+  whisper-core:
+    image: whisper-local:latest
+    # container_name: whisper-transcriber  # Removed for multi-stack compatibility
+    volumes:
+      # Mount project directories
+      - ./input:/app/input:ro
+      - ./output:/app/output
+      - ./local:/app/local:ro
+      - ./:/app:ro  # Mount entire project for access to transcribe.py
+      # Cache Whisper models to avoid re-downloading
+      - whisper-models:/root/.cache/whisper
+    environment:
+      - WHISPER_DEFAULT_MODEL=small
+      - WHISPER_DEFAULT_LANGUAGE=en
+      - PYTHONUNBUFFERED=1
+    working_dir: /app
+    entrypoint: ["/bin/bash"]
+    command: ["-c", "echo 'Whisper service ready for commands'; sleep infinity"]
+    networks:
+      - whisper-network
+    restart: unless-stopped
+
+  # File Watcher Service (automatically processes new files)
+  whisper-watcher:
+    image: whisper-local:latest
+    # container_name: whisper-watcher  # Removed for multi-stack compatibility
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./scripts:/app/scripts:ro
+      - whisper-models:/root/.cache/whisper
+    environment:
+      - WHISPER_DEFAULT_MODEL=base
+      - WATCH_DIRECTORY=/app/input
+      - OUTPUT_DIRECTORY=/app/output/auto-transcriptions
+    working_dir: /app
+    command: ["python", "/app/scripts/file_watcher.py"]
+    networks:
+      - whisper-network
+    depends_on:
+      - whisper-core
+    restart: unless-stopped
+    profiles:
+      - auto
+
+  # Redis for job queue (optional)
+  redis:
+    image: redis:7-alpine
+    # container_name: whisper-redis  # Removed for multi-stack compatibility
+    volumes:
+      - redis-data:/data
+    networks:
+      - whisper-network
+    restart: unless-stopped
+    profiles:
+      - queue
+
+  # Worker service for queue processing (optional)
+  whisper-worker:
+    image: whisper-local:latest
+    # container_name: whisper-worker  # Removed for multi-stack compatibility
+    volumes:
+      - ./input:/app/input:ro
+      - ./output:/app/output
+      - ./scripts:/app/scripts:ro
+      - whisper-models:/root/.cache/whisper
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - WHISPER_DEFAULT_MODEL=base
+    working_dir: /app
+    command: ["python", "/app/scripts/queue_worker.py"]
+    networks:
+      - whisper-network
+    depends_on:
+      - redis
+    restart: unless-stopped
+    profiles:
+      - queue
+    deploy:
+      replicas: 2
+
+networks:
+  whisper-network:
+    driver: bridge
+
+volumes:
+  whisper-models:
+    driver: local
+  redis-data:
+    driver: local

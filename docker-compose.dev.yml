@@ -1,0 +1,34 @@
+# Development Override - Hot reload, debugging, exposed ports
+
+services:
+  whisper-core:
+    volumes:
+      # Mount source code for development
+      - ./:/app
+    environment:
+      - WHISPER_DEFAULT_MODEL=tiny  # Faster for development
+      - DEBUG=1
+      - LOG_LEVEL=DEBUG
+    ports:
+      - "8000:8000"  # Expose for API development
+    command: ["-c", "echo 'Development Whisper service ready'; sleep infinity"]
+
+  # Development Web UI
+  whisper-ui-dev:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.dev
+    # container_name: whisper-ui-dev  # Removed for multi-stack compatibility
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:8000
+    ports:
+      - "3000:3000"
+    networks:
+      - whisper-network
+    command: ["npm", "start"]
+    profiles:
+      - ui
