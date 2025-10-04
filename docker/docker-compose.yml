@@ -1,0 +1,57 @@
+# Docker Compose for Whisper Transcription Services
+version: '3.8'
+
+services:
+  # Standard OpenAI Whisper service (our custom build)
+  whisper:
+    image: whisper-local:latest
+    container_name: whisper-transcriber
+    volumes:
+      - ./input:/data/input:ro
+      - ./output:/data/output
+    working_dir: /data
+    command: --help
+    profiles:
+      - whisper
+
+  # Faster Whisper service (our custom build)
+  faster-whisper:
+    image: faster-whisper:latest
+    container_name: faster-whisper-transcriber
+    volumes:
+      - ./input:/data/input:ro
+      - ./output:/data/output
+    working_dir: /data
+    command: --help
+    profiles:
+      - faster
+
+  # GPU-enabled Faster Whisper (requires NVIDIA Docker)
+  faster-whisper-gpu:
+    image: faster-whisper:latest
+    container_name: faster-whisper-gpu
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./input:/data/input:ro
+      - ./output:/data/output
+    working_dir: /data
+    command: --help
+    profiles:
+      - gpu
+
+networks:
+  default:
+    name: whisper-network
+
+# Usage Examples:
+# 
+# Standard Whisper:
+# docker-compose --profile whisper run --rm whisper --model medium --language en /data/input/audio.mp3
+#
+# Faster Whisper:
+# docker-compose --profile faster run --rm faster-whisper --model medium --language en /data/input/audio.mp3
+#
+# GPU Faster Whisper:
+# docker-compose --profile gpu run --rm faster-whisper-gpu --model large --language en /data/input/audio.mp3

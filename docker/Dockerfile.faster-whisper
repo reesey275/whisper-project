@@ -1,0 +1,60 @@
+# Custom Faster-Whisper Docker Image (CPU optimized)
+FROM python:3.12-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Install Python dependencies including faster-whisper
+RUN pip install --no-cache-dir \
+    faster-whisper \
+    torch \
+    torchaudio \
+    --extra-index-url https://download.pytorch.org/whl/cpu
+
+# Create entrypoint script
+RUN echo '#!/bin/bash\n\
+if [ "$#" -eq 0 ]; then\n\
+    echo "Usage: docker run faster-whisper [options] <audio_file>"\n\
+    echo "Example: docker run -v $(pwd):/data faster-whisper --model medium /data/audio.mp3"\n\
+    exit 1\n\
+fi\n\
+\n\
+# Convert whisper CLI args to faster-whisper format\n\
+python -c "\n\
+import sys\n\
+from faster_whisper import WhisperModel\n\
+import argparse\n\
+\n\
+parser = argparse.ArgumentParser()\n\
+parser.add_argument('\''--model'\'', default='\''base'\'')\n\
+parser.add_argument('\''--language'\'')\n\
+parser.add_argument('\''--task'\'', default='\''transcribe'\'')\n\
+parser.add_argument('\''--output_dir'\'', default='\''.'\'')\n\
+parser.add_argument('\''audio_file'\'')\n\
+args = parser.parse_args()\n\
+\n\
+model = WhisperModel(args.model, device='\''cpu'\'', compute_type='\''float32'\'')\n\
+segments, info = model.transcribe(args.audio_file, language=args.language, task=args.task)\n\
+\n\
+# Write output files\n\
+import os\n\
+basename = os.path.splitext(os.path.basename(args.audio_file))[0]\n\
+\n\
+# Text output\n\
+with open(os.path.join(args.output_dir, f'\''{basename}.txt'\''), '\''w'\'') as f:\n\
+    for segment in segments:\n\
+        f.write(segment.text)\n\
+\n\
+print(f'\''Transcription completed: {basename}.txt'\'')\n\
+" "$@"' > /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+# Set entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
