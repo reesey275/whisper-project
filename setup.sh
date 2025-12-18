@@ -22,17 +22,17 @@ echo "✅ Python $PYTHON_VERSION detected"
 setup_local() {
     echo ""
     echo "📦 Setting up local Whisper..."
-    
+
     # Check if pip is available
     if ! command -v pip3 &> /dev/null; then
         echo "❌ pip3 is required but not installed"
         exit 1
     fi
-    
-    # Install requirements  
+
+    # Install requirements
     echo "Installing Python dependencies..."
     pip3 install -r requirements.txt
-    
+
     echo "✅ Local setup complete!"
     echo ""
     echo "💡 Test with: python local/transcribe_local.py --help"
@@ -42,31 +42,31 @@ setup_local() {
 setup_docker() {
     echo ""
     echo "🐳 Setting up Docker..."
-    
+
     # Check if Docker is installed
     if ! command -v docker &> /dev/null; then
         echo "❌ Docker is not installed"
         echo "Please install Docker Desktop: https://docs.docker.com/get-docker/"
         exit 1
     fi
-    
+
     # Check if Docker is running
     if ! docker info &> /dev/null; then
         echo "❌ Docker daemon is not running"
         echo "Please start Docker Desktop"
         exit 1
     fi
-    
+
     echo "✅ Docker is available"
-    
+
     # Pull Docker images
     echo "Pulling Whisper Docker images..."
     docker pull ghcr.io/onedr0p/whisper:latest || echo "⚠️  Failed to pull standard whisper image"
     docker pull ghcr.io/guillaumekln/faster-whisper:latest || echo "⚠️  Failed to pull faster-whisper image"
-    
+
     # Make scripts executable
     chmod +x docker/transcribe_docker.sh
-    
+
     echo "✅ Docker setup complete!"
     echo ""
     echo "💡 Test with: ./docker/transcribe_docker.sh help"
@@ -76,10 +76,10 @@ setup_docker() {
 setup_api() {
     echo ""
     echo "🔑 Setting up API access..."
-    
+
     # Install minimal requirements for API usage
     pip3 install openai requests
-    
+
     # Copy environment template
     if [ ! -f .env ]; then
         cp .env.example .env
@@ -88,7 +88,7 @@ setup_api() {
     else
         echo "📄 .env file already exists"
     fi
-    
+
     echo "✅ API setup complete!"
     echo ""
     echo "💡 Edit .env file and add your API keys"
@@ -99,10 +99,10 @@ setup_api() {
 create_sample() {
     echo ""
     echo "🎵 Creating sample audio file..."
-    
+
     # Create input directory
     mkdir -p input
-    
+
     # Create a simple test file (requires ffmpeg)
     if command -v ffmpeg &> /dev/null; then
         # Generate a 5-second tone for testing
@@ -117,7 +117,7 @@ create_sample() {
 # Main setup logic
 echo "Choose your setup method:"
 echo "1) Local Whisper (full control, works offline)"
-echo "2) Docker containers (clean, no dependencies)"  
+echo "2) Docker containers (clean, no dependencies)"
 echo "3) API services (fastest, requires internet)"
 echo "4) All methods (comprehensive setup)"
 echo "5) Just create directories and sample files"
@@ -139,7 +139,7 @@ case $choice in
         ;;
     4)
         setup_local
-        setup_docker  
+        setup_docker
         setup_api
         create_sample
         ;;

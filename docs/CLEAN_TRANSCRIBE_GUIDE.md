@@ -81,7 +81,7 @@ python clean_transcribe.py --list --dev
 ========================================
 📄 interview_small_20251003_143022.txt
    Model: small | Size: 1,234 bytes | Modified: 2025-10-03 14:30
-📄 meeting_medium_20251003_150815.txt  
+📄 meeting_medium_20251003_150815.txt
    Model: medium | Size: 2,567 bytes | Modified: 2025-10-03 15:08
 ```
 
@@ -122,18 +122,18 @@ Based on real testing with the same 33.3-second audio clip:
 
 **Tiny Model (Poor Quality - 180 chars)**:
 ```
-Come on now. Let it flow. Oh, I'm just saying I've never ever heard that they 
-It's fags. There's no no big of a guy trying to stick it. I hope not I'm gonna 
+Come on now. Let it flow. Oh, I'm just saying I've never ever heard that they
+It's fags. There's no no big of a guy trying to stick it. I hope not I'm gonna
 shut you plenty of time
 ```
 *Broken sentences, missing context, poor accuracy*
 
 **Small Model (Excellent Quality - 553 chars)**:
 ```
-Come on now, let it flow, let it flow. Let it flow. Max. Let the heat flow with you. 
-I swear, guys who never talk about how small their peepee is, unless they want to put 
-it in your butt. I'm just saying. I'm just saying. I've never, ever heard that before, 
-but, you know, I'm aware. It's facts. It's not that big of a fun. I've never had a guy 
+Come on now, let it flow, let it flow. Let it flow. Max. Let the heat flow with you.
+I swear, guys who never talk about how small their peepee is, unless they want to put
+it in your butt. I'm just saying. I'm just saying. I've never, ever heard that before,
+but, you know, I'm aware. It's facts. It's not that big of a fun. I've never had a guy
 try to stick it. I hope not...
 ```
 *Complete sentences, natural flow, excellent accuracy and context preservation*
@@ -156,7 +156,7 @@ python clean_transcribe.py audio.mp4 --language en
 # Spanish
 python clean_transcribe.py audio.mp4 --language es
 
-# French  
+# French
 python clean_transcribe.py audio.mp4 --language fr
 
 # German
@@ -233,7 +233,7 @@ mv output/production/old_* output/archive/
 ```bash
 # 1. Test with multiple models for comparison
 python clean_transcribe.py test.mp4 --dev --model base
-python clean_transcribe.py test.mp4 --dev --model small  
+python clean_transcribe.py test.mp4 --dev --model small
 python clean_transcribe.py test.mp4 --dev --model medium
 
 # 2. Compare outputs

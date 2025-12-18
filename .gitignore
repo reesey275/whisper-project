@@ -37,7 +37,7 @@ auth.json
 credentials.json
 .credentials/
 
-# Cloud & Database Credentials  
+# Cloud & Database Credentials
 *aws*
 *AWS*
 *gcp*
@@ -359,6 +359,14 @@ settings_local.py
 # Keep configuration templates
 !config/*.template
 !config/*.example
+
+# Enhanced Potato Policy Required Patterns
+*.env
+*.key
+*.pem
+secrets.*
+id_rsa
+id_ed25519
 
 # =============================================================================
 # END POTATO POLICY COMPLIANT .GITIGNORE

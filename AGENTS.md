@@ -6,7 +6,7 @@ This document provides guidelines for AI agents working on this Whisper transcri
 
 This is a comprehensive Whisper transcription system supporting:
 - **Local Whisper** (OpenAI's implementation)
-- **Docker containers** (isolated environments)  
+- **Docker containers** (isolated environments)
 - **Cloud APIs** (OpenAI, AssemblyAI, Rev AI, Speechmatics)
 - **Universal interface** (auto-detection of best method)
 
@@ -22,25 +22,25 @@ whisper-project/
 ├── setup.sh                  # Automated setup script
 ├── test_setup.py             # System verification
 ├── demo.py                   # Interactive demonstration
-├── 
+├──
 ├── local/                    # Local Whisper implementation
 │   └── transcribe_local.py
 ├── docker/                   # Docker-based solutions
 │   ├── transcribe_docker.py
-│   ├── transcribe_docker.sh  
+│   ├── transcribe_docker.sh
 │   ├── docker-compose.yml
 │   ├── Dockerfile.whisper
 │   └── Dockerfile.faster-whisper
 ├── api/                      # Cloud API clients
 │   ├── transcribe_api.py
 │   └── alternative_apis.py
-├── 
+├──
 ├── input/                    # ✅ Input audio files go here
 ├── output/                   # ✅ ALL outputs go here (organized by purpose)
 │   ├── transcriptions/       # Regular transcription outputs
 │   ├── test_results/         # Test and comparison results
 │   └── batch_processing/     # Batch job results
-├── 
+├──
 ├── test_audio/              # Test files for development
 │   └── *.wav, *.mp3, etc.   # Keep ONLY source audio files
 └── whisper-env/             # Python virtual environment
@@ -62,7 +62,7 @@ output/
 ├── test_results/model_comparison/
 └── batch_processing/job_001/
 
-# ❌ WRONG - Creates duplicate and confusing structure  
+# ❌ WRONG - Creates duplicate and confusing structure
 test_audio/
 ├── results/           # NO! Don't create outputs here
 ├── base_output/       # NO! Don't create outputs here
@@ -96,7 +96,7 @@ When testing multiple models/methods:
 3. **Document your changes** as you go
 4. **Test in isolation** before integrating
 
-### After Development  
+### After Development
 1. **Clean up temporary files and directories**
 2. **Consolidate results** into proper locations
 3. **Update documentation** to reflect changes
@@ -122,7 +122,7 @@ project. It [key features and use cases].
 
 Usage:
     python script.py input.wav --model medium
-    
+
 Dependencies:
     - whisper (for local transcription)
     - docker (for containerized processing)

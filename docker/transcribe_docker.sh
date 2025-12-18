@@ -12,26 +12,26 @@ transcribe_with_whisper() {
     local model="${2:-medium}"
     local language="${3:-auto}"
     local output_dir="${4:-./output}"
-    
+
     if [ -z "$input_file" ]; then
         echo "Usage: transcribe_with_whisper <input_file> [model] [language] [output_dir]"
         echo "Example: transcribe_with_whisper audio.mp3 medium en ./output"
         return 1
     fi
-    
+
     if [ ! -f "$input_file" ]; then
         echo "❌ Error: File '$input_file' not found"
         return 1
     fi
-    
+
     echo "🐳 Running OpenAI Whisper in Docker container..."
     echo "📁 Input: $input_file"
     echo "🤖 Model: $model"
     echo "🌍 Language: $language"
     echo "📂 Output: $output_dir"
-    
+
     mkdir -p "$output_dir"
-    
+
     # Use our custom whisper container
     docker run --rm \
         -v "$(pwd):/data" \
@@ -48,26 +48,26 @@ transcribe_with_faster_whisper() {
     local model="${2:-medium}"
     local language="${3:-auto}"
     local output_dir="${4:-./output}"
-    
+
     if [ -z "$input_file" ]; then
         echo "Usage: transcribe_with_faster_whisper <input_file> [model] [language] [output_dir]"
         echo "Example: transcribe_with_faster_whisper audio.mp3 medium en ./output"
         return 1
     fi
-    
+
     if [ ! -f "$input_file" ]; then
         echo "❌ Error: File '$input_file' not found"
         return 1
     fi
-    
+
     echo "🚀 Running Faster-Whisper in Docker container..."
     echo "📁 Input: $input_file"
     echo "🤖 Model: $model"
     echo "🌍 Language: $language"
     echo "📂 Output: $output_dir"
-    
+
     mkdir -p "$output_dir"
-    
+
     # Use our custom faster-whisper container
     docker run --rm \
         -v "$(pwd):/data" \
@@ -84,34 +84,34 @@ batch_transcribe() {
     local output_dir="${2:-./output}"
     local model="${3:-medium}"
     local use_faster="${4:-false}"
-    
+
     echo "🔄 Starting batch transcription..."
     echo "📂 Input directory: $input_dir"
     echo "📂 Output directory: $output_dir"
     echo "🤖 Model: $model"
-    
+
     if [ ! -d "$input_dir" ]; then
         echo "❌ Error: Input directory '$input_dir' not found"
         return 1
     fi
-    
+
     mkdir -p "$output_dir"
-    
+
     local count=0
     for file in "$input_dir"/*.{mp3,mp4,wav,m4a,flac,ogg}; do
         [ -f "$file" ] || continue
-        
+
         echo "🎵 Processing: $(basename "$file")"
-        
+
         if [ "$use_faster" = "true" ]; then
             transcribe_with_faster_whisper "$file" "$model" "auto" "$output_dir"
         else
             transcribe_with_whisper "$file" "$model" "auto" "$output_dir"
         fi
-        
+
         ((count++))
     done
-    
+
     echo "✅ Batch processing complete! Processed $count files."
 }
 
@@ -122,13 +122,13 @@ check_docker() {
         echo "Please install Docker first: https://docs.docker.com/get-docker/"
         return 1
     fi
-    
+
     if ! docker info &> /dev/null; then
         echo "❌ Docker daemon is not running"
         echo "Please start Docker daemon"
         return 1
     fi
-    
+
     echo "✅ Docker is available and running"
     return 0
 }

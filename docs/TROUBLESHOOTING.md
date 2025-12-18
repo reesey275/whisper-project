@@ -9,7 +9,7 @@ Comprehensive solutions for common issues, debugging steps, and system optimizat
 | Problem | Quick Solution | Full Section |
 |---------|---------------|--------------|
 | 🚫 "Command not found" | `source whisper-env/bin/activate` | [Environment Issues](#-environment-issues) |
-| 🐌 Very slow transcription | Use `--model small` instead of tiny | [Performance Issues](#-performance-issues) |  
+| 🐌 Very slow transcription | Use `--model small` instead of tiny | [Performance Issues](#-performance-issues) |
 | 📄 Poor quality output | Use `--model medium --language en` | [Quality Issues](#-quality-issues) |
 | 🐳 Docker container fails | `docker-compose up --build` | [Docker Issues](#-docker-issues) |
 | 💾 "Out of memory" error | Use smaller model or reduce batch size | [Memory Issues](#-memory-issues) |
@@ -252,7 +252,7 @@ diff tiny_output.txt small_output.txt
    ```bash
    # For production quality
    python transcribe.py audio.mp4 --model small
-   
+
    # For maximum accuracy
    python transcribe.py audio.mp4 --model medium
    ```
@@ -261,7 +261,7 @@ diff tiny_output.txt small_output.txt
    ```bash
    # Better than auto-detection
    python transcribe.py audio.mp4 --language en
-   
+
    # For non-English content
    python transcribe.py spanish_audio.mp4 --language es
    ```
@@ -571,7 +571,7 @@ ffmpeg -i compressed_audio.mp4 -f segment -segment_time 300 -c copy api_chunk_%0
 ```bash
 # Convert various formats to MP4
 ffmpeg -i audio.avi -c:a aac audio.mp4          # AVI to MP4
-ffmpeg -i audio.mov -c:a aac audio.mp4          # MOV to MP4  
+ffmpeg -i audio.mov -c:a aac audio.mp4          # MOV to MP4
 ffmpeg -i audio.mkv -c:a aac audio.mp4          # MKV to MP4
 ffmpeg -i audio.wmv -c:a aac audio.mp4          # WMV to MP4
 
@@ -714,32 +714,32 @@ import os
 
 def profile_transcription(audio_file, model="small"):
     """Profile transcription performance."""
-    
+
     # Get initial system state
     process = psutil.Process(os.getpid())
     start_memory = process.memory_info().rss / 1024 / 1024  # MB
     start_time = time.time()
-    
+
     # Run transcription
     result = transcriber.transcribe(audio_file, model=model)
-    
+
     # Get final state
     end_time = time.time()
     end_memory = process.memory_info().rss / 1024 / 1024  # MB
-    
+
     # Calculate metrics
     processing_time = end_time - start_time
     memory_used = end_memory - start_memory
-    
+
     print(f"Performance Profile:")
     print(f"  Processing time: {processing_time:.2f}s")
     print(f"  Memory used: {memory_used:.1f}MB")
     print(f"  Peak memory: {end_memory:.1f}MB")
-    
+
     if result['success'] and 'audio_duration' in result:
         real_time_factor = result['audio_duration'] / processing_time
         print(f"  Real-time factor: {real_time_factor:.1f}x")
-    
+
     return result
 
 # Usage

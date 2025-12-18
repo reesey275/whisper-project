@@ -46,7 +46,7 @@ networks:
     name: whisper-network
 
 # Usage Examples:
-# 
+#
 # Standard Whisper:
 # docker-compose --profile whisper run --rm whisper --model medium --language en /data/input/audio.mp3
 #

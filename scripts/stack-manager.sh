@@ -5,7 +5,7 @@
 start_stack() {
     local config=$1
     local project_name=$2
-    
+
     case $config in
         "dev")
             echo "Starting development stack: $project_name"
@@ -56,7 +56,7 @@ list_stacks() {
 show_logs() {
     local project_name=$1
     local service=$2
-    
+
     if [ -z "$service" ]; then
         docker-compose -p "$project_name" logs -f
     else

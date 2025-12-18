@@ -64,7 +64,7 @@ def detect_best_method():
     """
     Priority order:
     1. Local installation (if available)
-    2. Docker (if containers available)  
+    2. Docker (if containers available)
     3. API (if OPENAI_API_KEY set)
     """
     if local_whisper_available():
@@ -139,37 +139,37 @@ class CleanTranscriber:
     """
     Clean, organized transcription interface with managed outputs.
     """
-    
+
     def __init__(self, base_output_dir="output"):
         """
         Initialize transcriber with organized directory structure.
-        
+
         Args:
             base_output_dir (str): Base directory for all outputs
         """
-        
-    def transcribe(self, audio_file, model="small", language="en", 
+
+    def transcribe(self, audio_file, model="small", language="en",
                   mode="production"):
         """
         Transcribe audio with organized output management.
-        
+
         Args:
             audio_file (str): Path to audio/video file
             model (str): Whisper model size
-            language (str): Language code  
+            language (str): Language code
             mode (str): "production" or "development"
-            
+
         Returns:
             dict: Transcription results with file paths
         """
-        
+
     def list_transcriptions(self, mode="production"):
         """
         List existing transcriptions with metadata.
-        
+
         Args:
             mode (str): "production" or "development"
-            
+
         Returns:
             list: Transcription file information
         """
@@ -196,7 +196,7 @@ result = transcriber.transcribe(
 if result['success']:
     for file_path in result['files']:
         print(f"Created: {file_path}")
-        
+
 # List existing transcriptions
 transcriptions = transcriber.list_transcriptions(mode="production")
 for item in transcriptions:
@@ -212,7 +212,7 @@ for item in transcriptions:
 - **Location**: `output/production/`
 - **Purpose**: Timestamped files for archival
 
-#### Development Mode  
+#### Development Mode
 - **Format**: `filename_model.ext`
 - **Location**: `output/development/`
 - **Purpose**: Simple names for iteration
@@ -240,28 +240,28 @@ python local_transcribe.py <audio_file> [options]
 ```python
 class LocalTranscriber:
     """Direct interface to locally installed Whisper."""
-    
+
     def __init__(self):
         """Initialize with dependency checking."""
-        
-    def transcribe(self, audio_file, model="small", language="en", 
+
+    def transcribe(self, audio_file, model="small", language="en",
                   output_dir="output"):
         """
         Transcribe using local Whisper installation.
-        
+
         Args:
             audio_file (str): Input file path
             model (str): Model size (tiny, base, small, medium, large)
             language (str): Language code or "auto"
             output_dir (str): Output directory
-            
+
         Returns:
             dict: Transcription results
         """
-        
+
     def available_models(self):
         """Get list of available models."""
-        
+
     def model_info(self, model_name):
         """Get model size and performance information."""
 ```
@@ -309,33 +309,33 @@ python docker_transcribe.py <audio_file> [options]
 ```python
 class DockerTranscriber:
     """Docker-based transcription interface."""
-    
+
     def __init__(self, image="whisper-local:latest"):
         """
         Initialize with Docker image.
-        
+
         Args:
             image (str): Docker image name
         """
-        
+
     def transcribe(self, audio_file, model="small", language="en",
                   output_dir="output"):
         """
         Transcribe using Docker container.
-        
+
         Args:
             audio_file (str): Input file path
             model (str): Model size
             language (str): Language code
             output_dir (str): Output directory
-            
+
         Returns:
             dict: Transcription results
         """
-        
+
     def list_images(self):
         """List available Docker images."""
-        
+
     def container_status(self):
         """Check container availability."""
 ```
@@ -370,7 +370,7 @@ transcriber = DockerTranscriber(image="faster-whisper:latest")
 status = transcriber.container_status()
 if status['available']:
     print(f"Container ready: {status['image']}")
-    
+
 # List available images
 images = transcriber.list_images()
 for image in images:
@@ -391,33 +391,33 @@ python api_transcribe.py <audio_file> [options]
 ```python
 class APITranscriber:
     """OpenAI API transcription interface."""
-    
+
     def __init__(self, api_key=None):
         """
         Initialize with API key.
-        
+
         Args:
             api_key (str): OpenAI API key (or from environment)
         """
-        
+
     def transcribe(self, audio_file, model="whisper-1", language="en",
                   output_dir="output"):
         """
         Transcribe using OpenAI API.
-        
+
         Args:
             audio_file (str): Input file path
             model (str): API model name
             language (str): Language code
             output_dir (str): Output directory
-            
+
         Returns:
             dict: Transcription results with API metadata
         """
-        
+
     def get_usage(self):
         """Get API usage statistics."""
-        
+
     def estimate_cost(self, audio_file):
         """Estimate transcription cost."""
 ```
@@ -447,7 +447,7 @@ if cost_estimate['total'] < 5.00:  # Budget limit
 def transcribe_large_file(audio_file):
     """Handle files larger than API limits."""
     file_size = os.path.getsize(audio_file)
-    
+
     if file_size > 25 * 1024 * 1024:  # 25MB limit
         print("File too large, splitting...")
         # Implementation splits file and processes chunks
@@ -466,22 +466,22 @@ All transcription methods return consistent dictionary format:
 {
     # Success indicator
     "success": bool,
-    
+
     # Transcription results
     "text": str,              # Plain text transcription
     "segments": list,         # Timestamped segments
     "language": str,          # Detected/specified language
-    
+
     # File information
     "files_created": list,    # Output file paths
     "output_directory": str,  # Output directory path
-    
+
     # Processing metadata
     "method_used": str,       # transcription method
     "model": str,             # model used
     "processing_time": float, # seconds taken
     "audio_duration": float,  # audio length in seconds
-    
+
     # Error information (if success=False)
     "error": str,             # error message
     "error_type": str,        # error category
@@ -503,7 +503,7 @@ All transcription methods return consistent dictionary format:
 #### Model Errors
 ```python
 {
-    "error_type": "ModelError", 
+    "error_type": "ModelError",
     "error": "Model 'huge' not available",
     "troubleshooting": "Available models: tiny, base, small, medium, large"
 }
@@ -513,7 +513,7 @@ All transcription methods return consistent dictionary format:
 ```python
 {
     "error_type": "EnvironmentError",
-    "error": "No transcription method available", 
+    "error": "No transcription method available",
     "troubleshooting": "Install Whisper, setup Docker, or configure API key"
 }
 ```
@@ -545,20 +545,20 @@ else:
 ```python
 def safe_transcribe(audio_file, fallback_model="small"):
     """Transcribe with automatic fallback and retry logic."""
-    
+
     try:
         # Try primary method
         result = transcriber.transcribe(audio_file, model="medium")
-        
+
         if result['success']:
             return result
-            
+
         # Try fallback model
         print(f"Retrying with {fallback_model} model...")
         result = transcriber.transcribe(audio_file, model=fallback_model)
-        
+
         return result
-        
+
     except Exception as e:
         return {
             "success": False,
@@ -578,26 +578,26 @@ from pathlib import Path
 
 def batch_transcribe(input_dir, output_dir="batch_output"):
     """Transcribe all audio files in a directory."""
-    
+
     audio_extensions = ['.mp3', '.mp4', '.wav', '.m4a']
     results = []
-    
+
     for file_path in Path(input_dir).iterdir():
         if file_path.suffix.lower() in audio_extensions:
             print(f"Processing: {file_path.name}")
-            
+
             result = transcriber.transcribe(
                 str(file_path),
                 model="small",
                 output_dir=output_dir
             )
-            
+
             results.append({
                 "file": file_path.name,
                 "success": result['success'],
                 "processing_time": result.get('processing_time', 0)
             })
-            
+
     return results
 
 # Usage
@@ -619,19 +619,19 @@ transcriber = CleanTranscriber()
 @app.route('/transcribe', methods=['POST'])
 def api_transcribe():
     """Web endpoint for transcription."""
-    
+
     if 'audio' not in request.files:
         return jsonify({"error": "No audio file provided"}), 400
-    
+
     file = request.files['audio']
     model = request.form.get('model', 'small')
     language = request.form.get('language', 'en')
-    
+
     # Save uploaded file temporarily
-    with tempfile.NamedTemporaryFile(delete=False, 
+    with tempfile.NamedTemporaryFile(delete=False,
                                    suffix=os.path.splitext(file.filename)[1]) as tmp:
         file.save(tmp.name)
-        
+
         # Transcribe
         result = transcriber.transcribe(
             tmp.name,
@@ -639,10 +639,10 @@ def api_transcribe():
             language=language,
             mode="production"
         )
-        
+
         # Cleanup
         os.unlink(tmp.name)
-        
+
         return jsonify(result)
 
 if __name__ == '__main__':
@@ -657,9 +657,9 @@ import concurrent.futures
 
 async def async_transcribe_batch(audio_files, max_workers=3):
     """Asynchronously transcribe multiple files."""
-    
+
     loop = asyncio.get_event_loop()
-    
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all transcription tasks
         tasks = [
@@ -672,10 +672,10 @@ async def async_transcribe_batch(audio_files, max_workers=3):
             )
             for audio_file in audio_files
         ]
-        
+
         # Wait for all to complete
         results = await asyncio.gather(*tasks)
-        
+
     return results
 
 # Usage
@@ -691,21 +691,21 @@ for i, result in enumerate(results):
 ```python
 def transcribe_with_summary(audio_file, model="small"):
     """Transcribe and generate summary."""
-    
+
     # Transcribe
     result = transcriber.transcribe(audio_file, model=model)
-    
+
     if not result['success']:
         return result
-    
+
     # Add summary processing
     text = result['text']
     word_count = len(text.split())
     duration = result.get('audio_duration', 0)
-    
+
     # Calculate statistics
     wpm = word_count / (duration / 60) if duration > 0 else 0
-    
+
     # Enhance result
     result.update({
         "statistics": {
@@ -715,7 +715,7 @@ def transcribe_with_summary(audio_file, model="small"):
             "character_count": len(text)
         }
     })
-    
+
     return result
 
 # Usage
@@ -734,7 +734,7 @@ if result['success']:
 # Create configuration file
 config = {
     "default_model": "small",
-    "default_language": "en", 
+    "default_language": "en",
     "output_directory": "transcriptions",
     "quality_settings": {
         "draft": {"model": "tiny", "language": "auto"},
@@ -747,7 +747,7 @@ config = {
 def transcribe_with_quality(audio_file, quality="standard"):
     """Transcribe using predefined quality settings."""
     settings = config["quality_settings"][quality]
-    
+
     return transcriber.transcribe(
         audio_file,
         model=settings["model"],
@@ -761,18 +761,18 @@ def transcribe_with_quality(audio_file, quality="standard"):
 ```python
 class TranscriptionPlugin:
     """Base class for transcription plugins."""
-    
+
     def pre_process(self, audio_file):
         """Called before transcription."""
         return audio_file
-    
+
     def post_process(self, result):
         """Called after transcription."""
         return result
 
 class NoiseReductionPlugin(TranscriptionPlugin):
     """Plugin to reduce background noise."""
-    
+
     def pre_process(self, audio_file):
         # Apply noise reduction
         cleaned_file = apply_noise_reduction(audio_file)
@@ -780,7 +780,7 @@ class NoiseReductionPlugin(TranscriptionPlugin):
 
 class SentimentAnalysisPlugin(TranscriptionPlugin):
     """Plugin to analyze sentiment."""
-    
+
     def post_process(self, result):
         if result['success']:
             sentiment = analyze_sentiment(result['text'])

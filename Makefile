@@ -1,7 +1,7 @@
 # Whisper Project - Professional Development Commands
 # =======================================================
 
-.PHONY: help test test-fast test-slow test-all bench lint security clean setup docs
+.PHONY: help test test-fast test-slow test-all bench lint security clean setup docs potato-check potato-report potato-violations
 
 # Default target
 help:  ## Show this help message
@@ -144,3 +144,16 @@ status:  ## Show project status and metrics
 	@echo "Test Lines: $$(find ./tests -name '*.py' | xargs wc -l | tail -1 | awk '{print $$1}')"
 	@echo "Coverage Gate: 40% (realistic baseline, will ratchet up)"
 	@echo "Behavior Contracts: ✅ Documented in FUNCTION_CONTRACTS.md"
+
+# Enhanced Potato Policy Commands 🥔
+potato-check:  ## Run Enhanced Potato Policy security check
+	@echo "🥔 Running Enhanced Potato Policy security check..."
+	@./scripts/enhanced_potato_check.sh --verbose
+
+potato-report:  ## Generate Enhanced Potato Policy audit report
+	@echo "🥔 Generating Enhanced Potato Policy audit report..."
+	@./scripts/generate_potato_report.sh true
+
+potato-violations:  ## Check and report Enhanced Potato Policy violations
+	@echo "🥔 Checking and reporting policy violations..."
+	@./scripts/potato_violation_reporter.sh

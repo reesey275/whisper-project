@@ -32,7 +32,7 @@ python clean_transcribe.py test_audio.mp4 --dev --model base
 ```
 
 ### ✅ **Production (Recommended Default)**
-**Recommended: `small` model** 
+**Recommended: `small` model**
 - **Speed**: 7.0x realtime (fast enough)
 - **Quality**: Excellent (553 characters, most complete transcription)
 - **Memory**: Efficient (0.6GB)
@@ -87,39 +87,39 @@ python clean_transcribe.py batch_audio.mp4 --model turbo
 
 #### 🥇 **Best Quality: `small` Model (553 characters)**
 ```text
-"Come on now, let it flow, let it flow. Let it flow. Max. Let the heat flow with you. 
-I swear, guys who never talk about how small their peepee is, unless they want to put it 
-in your butt. I'm just saying. I'm just saying. I've never, ever heard that before, but, 
-you know, I'm aware. It's facts. It's not that big of a fun. I've never had a guy try to 
-stick it. I hope not. You're saying so much like what you said. I was like, wait, what? 
-What? Oh, I was going to say to you plenty of times. I'm just going to say this. God, 
+"Come on now, let it flow, let it flow. Let it flow. Max. Let the heat flow with you.
+I swear, guys who never talk about how small their peepee is, unless they want to put it
+in your butt. I'm just saying. I'm just saying. I've never, ever heard that before, but,
+you know, I'm aware. It's facts. It's not that big of a fun. I've never had a guy try to
+stick it. I hope not. You're saying so much like what you said. I was like, wait, what?
+What? Oh, I was going to say to you plenty of times. I'm just going to say this. God,
 I'm just going to say this."
 ```
 ✅ **Most complete, natural sentences, best context preservation**
 
 #### 🥈 **Good Quality: `medium` Model (492 characters)**
 ```text
-"Come on now, let it flow, let it flow. Let it flow. Let the hate flow within you. Guys, 
-we never talk about how small their pee pee is unless they want to put it in your butt. 
-What? I'm just saying. I'm just saying. I've never ever heard that before, but you know, 
-I'm over it. It's facts. It's not that big of a define. I've never had a guy try to stick 
-it. I hope not. God, you're saying stuff like what you said. I was like, wait, what? What? 
+"Come on now, let it flow, let it flow. Let it flow. Let the hate flow within you. Guys,
+we never talk about how small their pee pee is unless they want to put it in your butt.
+What? I'm just saying. I'm just saying. I've never ever heard that before, but you know,
+I'm over it. It's facts. It's not that big of a define. I've never had a guy try to stick
+it. I hope not. God, you're saying stuff like what you said. I was like, wait, what? What?
 Oh, I was going to say to you plenty of times."
 ```
 ✅ **High quality but slightly less complete than small**
 
 #### 🥉 **Acceptable: `base` Model (361 characters)**
 ```text
-"Come on now let it flow let it flow The guys over to talk about smaller their pee pee is 
-unless you want to put in your butt I'm just saying Just say You know it's facts. There's 
-no no big. I'm fine. I'm trying to stick it. I hope not I was like, wait, what? I was 
+"Come on now let it flow let it flow The guys over to talk about smaller their pee pee is
+unless you want to put in your butt I'm just saying Just say You know it's facts. There's
+no no big. I'm fine. I'm trying to stick it. I hope not I was like, wait, what? I was
 going to send you plenty of time. I was just so close. I was just so close. I was just so close."
 ```
 ⚠️ **Missing punctuation, some repetition, but understandable**
 
 #### ❌ **Poor Quality: `tiny` Model (180 characters)**
 ```text
-"Come on now. Let it flow. Oh, I'm just saying I've never ever heard that they It's fags. 
+"Come on now. Let it flow. Oh, I'm just saying I've never ever heard that they It's fags.
 There's no no big of a guy trying to stick it. I hope not I'm gonna shut you plenty of time"
 ```
 ❌ **Broken sentences, missing context, poor accuracy**
@@ -250,7 +250,7 @@ for audio in test_files/*.mp4; do
     python clean_transcribe.py "$audio" --dev --model base
 done
 
-# Production workflow  
+# Production workflow
 for audio in production/*.mp4; do
     python clean_transcribe.py "$audio" --model small
 done
@@ -295,7 +295,7 @@ python -c "import gc; gc.collect()" && python clean_transcribe.py large_file.mp4
 ### Time vs Quality Sweet Spots
 
 1. **Development**: `base` model (fastest, adequate quality)
-2. **Production**: `small` model (best quality/time ratio) 
+2. **Production**: `small` model (best quality/time ratio)
 3. **Critical content**: `medium` model (maximum practical quality)
 4. **Batch processing**: `small` model (consistent performance)
 
@@ -345,14 +345,14 @@ python -c "import whisper; print(whisper._MODELS)"
 
 ### **Workflow-Specific Choices**
 - **Development/Testing**: `base` model
-- **Production Default**: `small` model  
+- **Production Default**: `small` model
 - **High-Quality Production**: `medium` model
 - **Batch Processing**: `small` or `turbo` model
 - **Resource-Constrained**: `base` model
 
 ### **Quality Hierarchy** (based on testing)
 1. 🥇 **`small`**: 553 characters, most complete
-2. 🥈 **`medium`**: 492 characters, high accuracy  
+2. 🥈 **`medium`**: 492 characters, high accuracy
 3. 🥉 **`turbo`**: 358 characters, good efficiency
 4. 🏃 **`base`**: 361 characters, speed-focused
 5. ❌ **`tiny`**: 180 characters, avoid for production

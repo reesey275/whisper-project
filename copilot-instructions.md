@@ -6,7 +6,7 @@ You are working on a comprehensive Whisper transcription system that supports lo
 ## Core Architecture
 - **Universal Interface**: `transcribe.py` - auto-detects best available method
 - **Local Processing**: Direct OpenAI Whisper installation with multiple model sizes
-- **Docker Support**: Custom containers for isolated, consistent processing  
+- **Docker Support**: Custom containers for isolated, consistent processing
 - **Cloud APIs**: OpenAI, AssemblyAI, Rev AI, and Speechmatics integration
 - **Multiple Output Formats**: TXT, SRT, VTT subtitles with timestamps
 
@@ -14,7 +14,7 @@ You are working on a comprehensive Whisper transcription system that supports lo
 ```
 whisper-project/
 ├── transcribe.py              # Main entry point - universal interface
-├── local/transcribe_local.py  # Local Whisper implementation  
+├── local/transcribe_local.py  # Local Whisper implementation
 ├── docker/                    # Docker solutions (scripts + containers)
 ├── api/                       # Cloud API clients
 ├── input/                     # User audio files
