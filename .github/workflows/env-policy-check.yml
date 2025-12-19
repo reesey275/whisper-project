@@ -26,25 +26,24 @@ jobs:
           #   .env.TEMPLATE  (documented template)
           #   .env.example   (lean example)
           #   .env.template  (legacy/optional allow)
-          allow_re='^\\.env\\.(example|template)$|^\\.env\\.TEMPLATE$'
 
-            bad=""
-            while IFS= read -r f; do
-              b="$(basename "$f")"
-              case "$b" in
-                .env.example|.env.TEMPLATE|.env.template)
-                  ;;
-                *)
-                  bad+="$f\n"
-                  ;;
-              esac
-            done < <(git ls-files -- '.env' '.env.*')
+          bad=""
+          while IFS= read -r f; do
+            b="$(basename "$f")"
+            case "$b" in
+              .env.example|.env.TEMPLATE|.env.template)
+                ;;
+              *)
+                bad+="$f\n"
+                ;;
+            esac
+          done < <(git ls-files -- '.env' '.env.*')
 
-            if [[ -n "$bad" ]]; then
-              echo "::error::Forbidden tracked env files detected:"
-              printf "%b" "$bad"
-              exit 1
-            fi
+          if [[ -n "$bad" ]]; then
+            echo "::error::Forbidden tracked env files detected:"
+            printf "%b" "$bad"
+            exit 1
+          fi
 
           echo "== 2) .gitignore must ignore .env* but whitelist templates/examples =="
           test -f .gitignore || { echo "::error::.gitignore missing"; exit 1; }
