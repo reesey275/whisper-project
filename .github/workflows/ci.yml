@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # 🚀 STAGE 1: Fast-fail quality gate (1-2 minutes)
   quality-gate:
@@ -76,7 +80,8 @@ jobs:
         sed -n '12,20p' FUNCTION_CONTRACTS.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload quality artifacts
-      uses: actions/upload-artifact@v3
+      # actions/upload-artifact v4 pinned to commit SHA (deprecates v3)
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
         name: quality-reports-${{ github.sha }}
@@ -138,7 +143,8 @@ jobs:
         echo "Test summary: $(pytest --collect-only -q | grep -c test) tests collected" >> $GITHUB_STEP_SUMMARY
 
     - name: Upload test artifacts
-      uses: actions/upload-artifact@v3
+      # actions/upload-artifact v4 pinned to commit SHA (deprecates v3)
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
         name: test-results-py${{ matrix.python-version }}-${{ github.sha }}
